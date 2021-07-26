@@ -5,13 +5,13 @@ import WeatherMap from "../components/WeatherMap/WeatherMap";
 export const publicRoutes = [
     {
         path: LOGIN_ROUTE,
-        Components: Login
+        Component: Login
     }
 ]
 
 export const privateRoutes = [
     {
         path: WEATHER_MAP_ROUTE,
-        Components: WeatherMap
+        Component: WeatherMap
     }
 ]

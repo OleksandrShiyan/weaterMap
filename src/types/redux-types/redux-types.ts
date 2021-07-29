@@ -10,6 +10,11 @@ enum UserActionTypes {
   FETCH_GOOGLE_AUTH_OBJ = 'FETCH_GOOGLE_AUTH_OBJ',
 }
 
+enum ForecastActionTypes {
+  FETCH_WEATHER_DATA = 'FETCH_WEATHER_DATA',
+  CLEAR_WEATHER_DATA = 'CLEAR_WEATHER_DATA',
+}
+
 export interface FetchGoogleUserA {
   type: UserActionTypes.FETCH_GOOGLE_USER;
 }
@@ -23,17 +28,93 @@ export interface FetchGoogleUserErrorA {
   type: UserActionTypes.FETCH_GOOGLE_USER_ERROR;
   error: string;
 }
+
 export interface FetchGoogleAuthObjA {
   type: UserActionTypes.FETCH_GOOGLE_AUTH_OBJ;
   auth: any;
 }
 
-export type UserAction = FetchGoogleUserA | FetchGoogleUserSuccessA | FetchGoogleUserErrorA | FetchGoogleAuthObjA;
+export interface FetchWeatherDataA {
+  type: ForecastActionTypes.FETCH_WEATHER_DATA;
+  payload: forecastState;
+}
+
+export interface ClearWeatherDataA {
+  type: ForecastActionTypes.CLEAR_WEATHER_DATA;
+}
+
+export type UserAction =
+  | FetchGoogleUserA
+  | FetchGoogleUserSuccessA
+  | FetchGoogleUserErrorA
+  | FetchGoogleAuthObjA;
+
+export type ForecastAction =
+  | FetchWeatherDataA
+  | ClearWeatherDataA;
 
 export interface authReducerState {
   login: string;
   isAuth: boolean;
   error: string | null;
   loading: boolean;
-  auth: any
+  auth: any;
+}
+
+export interface forecastState {
+    city: cityObj | null;
+    list: listObj[] | null;
+}
+
+interface cityObj {
+  coords: {
+    lat: number;
+    lon: number;
+  };
+  country: string;
+  id: number;
+  name: string;
+  population: number;
+  sunrise: number;
+  sunset: number;
+  timezone: number;
+}
+
+interface listObj {
+  clouds: {
+    all: number;
+  };
+  dt: number;
+  dt_txt: string;
+  main: mainObj;
+  pop: number;
+  sys: {
+    pob: string;
+  };
+  visibility: number;
+  weather: [weatherObj];
+  wind: {
+    speed: number;
+    deg: number;
+    gust: number;
+  };
+}
+
+interface mainObj {
+  feels_like: number;
+  grnd_level: number;
+  humidity: number;
+  pressure: number;
+  sea_level: number;
+  temp: number;
+  temp_kf: number;
+  temp_max: number;
+  temp_min: number;
+}
+
+interface weatherObj {
+  description: string;
+  icon: string;
+  id: number;
+  main: string;
 }

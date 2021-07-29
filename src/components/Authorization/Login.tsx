@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box, Container, Grid, Button} from '@material-ui/core';
-import firebase from "firebase";
+import firebase from 'firebase';
 import {useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 

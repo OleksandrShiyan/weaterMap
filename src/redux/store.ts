@@ -1,5 +1,7 @@
 import {combineReducers, compose, createStore} from "redux";
 import authReducer from "./reducers/auth-reducer";
+import forecastReducer from "./reducers/forecast-reducer";
+import {authReducerState, forecastState} from "../types/redux-types/redux-types";
 
 declare global {
     interface Window {
@@ -7,11 +9,15 @@ declare global {
     }
 }
 
+const reducersObj = {
+    auth: authReducer,
+    forecast: forecastReducer
+}
 
-
-let reducers = combineReducers({
-    auth: authReducer
-});
+let reducers = combineReducers<{
+    auth: authReducerState,
+    forecast: forecastState
+}>(reducersObj);
 
 export type RootState = ReturnType<typeof reducers>
 

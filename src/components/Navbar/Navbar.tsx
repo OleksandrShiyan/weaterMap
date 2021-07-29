@@ -12,7 +12,7 @@ const Navbar = () => {
     const { auth } = useSelector((state: RootState) => state.auth);
     const [user] = useAuthState(auth);
 
-    console.log('user: ', user)
+    // console.log('user: ', user)
 
     const logOut = () => {
         auth.signOut();

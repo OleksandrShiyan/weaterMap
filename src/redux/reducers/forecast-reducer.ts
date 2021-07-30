@@ -8,7 +8,7 @@ const initialState: forecastState = {
                 all: 1
             },
             dt: 1,
-            dt_txt: 'init',
+            dt_txt: 'init 19:00:00',
             wind: {
                 deg: 1,
                 gust: 1,

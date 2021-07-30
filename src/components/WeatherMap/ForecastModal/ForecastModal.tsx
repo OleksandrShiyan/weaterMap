@@ -9,11 +9,12 @@ const ForecastModal = ({setForecast}: ForecastModalP) => {
     const closeModal = () => {
         setForecast(false);
     }
+    // console.log('height inner: ', window.innerHeight, ' width inner: ', window.innerWidth)
     return (
         <div className={style.modal}>
             <div className={style.modalContent}>
                 {/*<ForecastGraph/>*/}
-                <ForecastGraphTest/>
+                <ForecastGraphTest innerWidth={window.innerWidth} innerHeight={window.innerHeight}/>
             </div>
             <div onClick={closeModal} className={style.modalCloser}/>
         </div>

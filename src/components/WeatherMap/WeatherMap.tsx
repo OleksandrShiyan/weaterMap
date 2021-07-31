@@ -12,16 +12,13 @@ const containerStyle = {
   height: '93vh',
 };
 
-// http://maps.openweathermap.org/maps/2.0/weather/TA2/8/50/30?appid=c3256a23f4717a90ea226483514e6cfa
-
-const apiKey = 'c3256a23f4717a90ea226483514e6cfa';
 
 function WeatherMap() {
   const dispatch = useDispatch();
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyBnHITdRGqi7e71Qhc6-sgSaF8y8H0-LBg',
+    
   });
 
   const [center, setCenter] = useState({

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Container, Grid } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 
 const Loader = () => {
   return (
@@ -11,7 +11,7 @@ const Loader = () => {
         justifyContent={'center'}
       >
         <Grid container alignItems={'center'} direction={'column'}>
-          <div className="lds-dual-ring"></div>
+          <div className="lds-dual-ring"/>
         </Grid>
       </Grid>
     </Container>

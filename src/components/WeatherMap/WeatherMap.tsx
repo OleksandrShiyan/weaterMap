@@ -14,7 +14,6 @@ const containerStyle = {
 
 const apiKey = 'c3256a23f4717a90ea226483514e6cfa';
 
-
 function WeatherMap() {
   const dispatch = useDispatch();
 
@@ -30,15 +29,9 @@ function WeatherMap() {
 
   const cache = useSelector((state: RootState) => state.cache);
 
-  const [map, setMap] = React.useState({ zoom: 4 });
+  const [, setMap] = React.useState({ zoom: 4 });
 
-  // const onLoad = React.useCallback(function callback(map) {
-  //   const bounds = new (window as any).google.maps.LatLngBounds();
-  //   map.fitBounds(bounds);
-  //   setMap(map);
-  // }, []);
-
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = React.useCallback(function callback() {
     setMap({ zoom: 5 });
   }, []);
 
@@ -59,15 +52,12 @@ function WeatherMap() {
 
     if (cachedObj.distance !== -1) {
       dispatch({ type: FETCH_WEATHER_DATA, payload: cache.requests[cachedObj.index] });
-      console.log('Data is cached!!');
     } else {
-      console.log('Fetching new data');
       axios
         .get(
-          `http://api.openweathermap.org/data/2.5/forecast?lat=${e.latLng.lat()}&lon=${e.latLng.lng()}&appid=${apiKey}&units=metric`,
+          `https://api.openweathermap.org/data/2.5/forecast?lat=${e.latLng.lat()}&lon=${e.latLng.lng()}&appid=${apiKey}&units=metric`,
         )
         .then((event) => {
-          // console.log('forecast: ', event.data);
           dispatch({ type: FETCH_WEATHER_DATA, payload: event.data });
           dispatch({
             type: ADD_FORECAST_REQUEST,
@@ -80,21 +70,8 @@ function WeatherMap() {
         });
     }
 
-    // console.log('event: ', e);
-    // console.log('lat: ', e.latLng.lat());
-    // console.log('lng: ', e.latLng.lng());
-    //
-    // console.log('timeStamp: ', Date.now());
     setForecast(true);
   };
-
-  // const onZoom = () => {
-  //   console.log('zoom map: ', map.zoom);
-  // };
-
-  // useEffect(() => {
-  //   console.log('map: ', map);
-  // }, [map]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((e) => {
@@ -102,11 +79,8 @@ function WeatherMap() {
         lat: e.coords.latitude,
         lng: e.coords.longitude,
       });
-      // console.log('geo:', e);
-      // console.log('center', center)
     });
   }, []);
-
 
   const [forecast, setForecast] = useState(false);
 
@@ -119,8 +93,6 @@ function WeatherMap() {
       onClick={onClick}
     >
       {forecast ? <ForecastModal setForecast={setForecast} /> : null}
-      {/* Child components, such as markers, info windows, etc. */}
-      <></>
     </GoogleMap>
   ) : (
     <></>

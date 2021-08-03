@@ -11,18 +11,18 @@ const initialState: authReducerState = {
   isAuth: false,
   error: null,
   loading: true,
-  auth: null
+  auth: null,
 };
 
 function authReducer(state = initialState, action: UserAction) {
   switch (action.type) {
     case FETCH_GOOGLE_AUTH_OBJ:
-      // console.log('action: ', action)
       return {
         ...state,
         auth: action.auth,
-        loading: false
-      };case FETCH_GOOGLE_USER:
+        loading: false,
+      };
+    case FETCH_GOOGLE_USER:
       return {
         ...state,
       };

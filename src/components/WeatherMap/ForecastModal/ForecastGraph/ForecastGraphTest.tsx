@@ -7,7 +7,6 @@ import { forecastState } from '../../../../types/redux-types/redux-types';
 import { debounce } from '@material-ui/core';
 
 function getTextWidth(text: string, font: string): number {
-  // re-use canvas object for better performance
   // @ts-ignore
   const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement('canvas'));
   const context = canvas.getContext('2d');
@@ -17,16 +16,15 @@ function getTextWidth(text: string, font: string): number {
 }
 
 const display = (blockWidth: number, blockHeight: number, forecast: forecastState) => {
-  console.log('display rendered', blockWidth, blockHeight)
   d3.selectAll('#forecast > *').remove();
 
   const width = blockWidth / 3;
   const height = blockHeight / 2;
 
   const textSize = Math.round(blockWidth / 100) + 2;
-  // console.log('text size: ', textSize);
   const timeWidth = getTextWidth('19:00', `${textSize}px 'Times New Roman'`);
   const tempWidth = getTextWidth('30°', `${textSize + 2}px 'Times New Roman'`);
+
   if (forecast.list) {
     const dayForecast = forecast.list.slice(0, 8);
 
@@ -112,19 +110,14 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       time.attr('x', (data) => differenceInTime + xScale(data.dt_txt)!)
           .attr('y', height - 5)
           .attr('font-size', textSize);
+      line.attr("d", d3.line<{ dt_txt: string; main: any }>()
+          .curve(d3.curveBasis)
+          .x((data) =>  (xScale(data.dt_txt)??0) + 18.5 )
+          .y((data) =>   yScale(data.main.temp)*2 )
+      )
     }
   }
 };
-
-const DUMMY_DATA = [
-  { id: 1, temp: 22, time: '15:00' },
-  { id: 2, temp: 26, time: '18:00' },
-  { id: 3, temp: 28, time: '21:00' },
-  { id: 4, temp: 32, time: '24:00' },
-  { id: 5, temp: 23, time: '3:00' },
-  { id: 6, temp: 26, time: '6:00' },
-  { id: 7, temp: 27, time: '9:00' },
-];
 
 const ForecastGraphTest = () => {
   const forecast = useSelector((state: RootState) => state.forecast);
@@ -149,7 +142,7 @@ const ForecastGraphTest = () => {
     }
   }, [forecast]);
 
-  return <svg id="forecast"></svg>;
+  return <svg id="forecast"/>;
 };
 
 export default ForecastGraphTest;

@@ -14,7 +14,7 @@ const ForecastModal = ({setForecast}: ForecastModalP) => {
         <div className={style.modal}>
             <div className={style.modalContent}>
                 {/*<ForecastGraph/>*/}
-                <ForecastGraphTest innerWidth={window.innerWidth} innerHeight={window.innerHeight}/>
+                <ForecastGraphTest/>
             </div>
             <div onClick={closeModal} className={style.modalCloser}/>
         </div>

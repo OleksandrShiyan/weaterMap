@@ -14,16 +14,16 @@
 }
 
 .modalContent {
-    /*position: relative;*/
-    /*z-index: 100;*/
+    position: relative;
+    z-index: 100;
     /*background: #FFFFFF;*/
     /*border-radius: 20px;*/
     /*margin: 15% auto;*/
     /*padding: 30px 50px;*/
     /*border: 1px solid #888;*/
-    /*width: 40%;*/
+    width: 40%;
     /*height: 60%;*/
-    /*text-align: center;*/
+    text-align: center;
 }
 
 .modalCloser{
@@ -43,28 +43,36 @@
 .container{
     width: 33vw;
     height: 50vh;
-    border: 1px solid #888;
+    /*border: 1px solid #888;*/
     background: #FFFFFF;
     border-radius: 20px;
 }
 
-.svg-container {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%; /* aspect ratio */
-    vertical-align: top;
-    overflow: hidden;
-}
-.svg-content-responsive {
-    display: inline-block;
-    position: absolute;
-    top: 10px;
-    left: 0;
+.center {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    /*justify-content: center;*/
+    /*align-items: center;*/
 }
 
-svg .rect {
-    fill: gold;
-    stroke: steelblue;
-    stroke-width: 5px;
-}
+/*.svg-container {*/
+/*    display: inline-block;*/
+/*    position: relative;*/
+/*    width: 100%;*/
+/*    padding-bottom: 100%; !* aspect ratio *!*/
+/*    vertical-align: top;*/
+/*    overflow: hidden;*/
+/*}*/
+/*.svg-content-responsive {*/
+/*    display: inline-block;*/
+/*    position: absolute;*/
+/*    top: 10px;*/
+/*    left: 0;*/
+/*}*/
+
+/*svg .rect {*/
+/*    fill: gold;*/
+/*    stroke: steelblue;*/
+/*    stroke-width: 5px;*/
+/*}*/

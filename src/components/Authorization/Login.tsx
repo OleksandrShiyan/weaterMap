@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Grid, Button } from '@material-ui/core';
+import { Box, Button, Container, Grid } from '@material-ui/core';
 import firebase from 'firebase';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -12,20 +12,17 @@ const Login = () => {
 
   const loginGoogle = async () => {
     if (auth) {
-      const { user } = await auth.auth.signInWithPopup(googleProvider);
-      console.log('user: ', user);
+      await auth.auth.signInWithPopup(googleProvider);
     }
   };
   const loginFacebook = async () => {
     if (auth) {
-      const { user } = await auth.auth.signInWithPopup(facebookProvider);
-      console.log('user: ', user);
+      await auth.auth.signInWithPopup(facebookProvider);
     }
   };
   const loginGitHub = async () => {
     if (auth) {
-      const { user } = await auth.auth.signInWithPopup(gitHubProvider);
-      console.log('user: ', user);
+      await auth.auth.signInWithPopup(gitHubProvider);
     }
   };
 
@@ -34,23 +31,23 @@ const Login = () => {
       <Grid
         container
         style={{ height: window.innerHeight - 50 }}
-        alignItems={'center'}
-        justifyContent={'center'}
+        alignItems="center"
+        justifyContent="center"
       >
         <Grid
           style={{ width: 400, background: 'lightgray' }}
           container
-          alignItems={'center'}
-          direction={'column'}
+          alignItems="center"
+          direction="column"
         >
           <Box p={5}>
-            <Button onClick={loginGoogle} variant={'outlined'}>
+            <Button onClick={loginGoogle} variant="outlined">
               Enter with Google
             </Button>
-            <Button onClick={loginFacebook} variant={'outlined'}>
+            <Button onClick={loginFacebook} variant="outlined">
               Enter with Facebook
             </Button>
-            <Button onClick={loginGitHub} variant={'outlined'}>
+            <Button onClick={loginGitHub} variant="outlined">
               Enter with GitHub
             </Button>
           </Box>

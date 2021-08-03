@@ -27,7 +27,7 @@ function App() {
     dispatch({ type: FETCH_GOOGLE_AUTH_OBJ, auth });
   }, [auth]);
 
-  const [, loading ] = useAuthState(auth);
+  const [, loading] = useAuthState(auth);
 
   if (loading) {
     return <Loader />;

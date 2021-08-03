@@ -41,7 +41,10 @@ function WeatherMap() {
     const meLong = e.latLng.lng();
     cache.requests.map((req, index) => {
       const distance = HaversineInKM(meLat, meLong, req.coords.lat, req.coords.lng);
-      if (distance < 20 && (cachedObj.distance === -1 || cachedObj.distance && cachedObj.distance > distance)) {
+      if (
+        distance < 20 &&
+        (cachedObj.distance === -1 || (cachedObj.distance && cachedObj.distance > distance))
+      ) {
         cachedObj = { index, distance };
       }
     });

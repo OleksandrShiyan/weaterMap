@@ -17,20 +17,20 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar color={'secondary'} position="static">
-      <Toolbar variant={'dense'}>
-        <Grid container justifyContent={'flex-end'}>
+    <AppBar color="secondary" position="static">
+      <Toolbar variant="dense">
+        <Grid container justifyContent="flex-end">
           {user ? (
-            <Grid container justifyContent={'flex-end'} alignItems={'center'}>
-              <img src={user.photoURL ? user.photoURL : ''} alt="userPhoto" className={'userImg'} />
+            <Grid container justifyContent="flex-end" alignItems="center">
+              <img src={user.photoURL ? user.photoURL : ''} alt="userPhoto" className="userImg" />
               <div>{user.displayName}</div>
-              <Button onClick={logOut} variant={'outlined'}>
+              <Button onClick={logOut} variant="outlined">
                 Log Out
               </Button>
             </Grid>
           ) : (
             <Link to={LOGIN_ROUTE}>
-              <Button variant={'outlined'}>Login</Button>
+              <Button variant="outlined">Login</Button>
             </Link>
           )}
         </Grid>

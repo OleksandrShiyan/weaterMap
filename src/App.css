@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,6 +9,7 @@
     width: 80px;
     height: 80px;
 }
+
 .lds-dual-ring:after {
     content: " ";
     display: block;
@@ -20,6 +21,7 @@
     border-color: #fcf transparent #fcf transparent;
     animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
     0% {
         transform: rotate(0deg);
@@ -29,7 +31,7 @@
     }
 }
 
-.userImg{
+.userImg {
     width: 36px;
     height: 36px;
     border-radius: 50%;

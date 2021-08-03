@@ -35,8 +35,8 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .padding(0.15);
     const yScale = d3.scaleLinear().domain([-60, 45]).range([height, 0]);
 
-    const differenceInTime = (xScale.bandwidth() - timeWidth)/2;
-    const differenceInTemp = (xScale.bandwidth() - tempWidth)/2;
+    const differenceInTime = (xScale.bandwidth() - timeWidth) / 2;
+    const differenceInTemp = (xScale.bandwidth() - tempWidth) / 2;
 
     const container = d3.select('#forecast').classed(style.container, true);
 
@@ -50,7 +50,7 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .attr('height', (data) => height - yScale(data.main.temp))
       .attr('x', (data) => xScale(data.dt_txt)!)
       .attr('y', (data) => yScale(data.main.temp))
-        .call(() =>{});
+      .call(() => {});
 
     const temp = container
       .selectAll('.bar')
@@ -73,19 +73,21 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .text((data) => data.dt_txt.split(' ')[1].slice(0, 5));
 
     const line = container
-        .append('path')
-        .datum(dayForecast)
-        .attr('fill', 'none')
-        .attr('stroke', 'red')
-        .attr("stroke-width", 1.5)
-        .attr("stroke-linejoin", "round")
-        .attr("d", d3.line<{ dt_txt: string; main: any }>()
-            .curve(d3.curveBasis)
-            .x((data) =>  (xScale(data.dt_txt)??0) + 18.5 )
-            .y((data) =>   yScale(data.main.temp)*2 )
-        )
+      .append('path')
+      .datum(dayForecast)
+      .attr('fill', 'none')
+      .attr('stroke', 'red')
+      .attr('stroke-width', 1.5)
+      .attr('stroke-linejoin', 'round')
+      .attr(
+        'd',
+        d3
+          .line<{ dt_txt: string; main: any }>()
+          .curve(d3.curveBasis)
+          .x((data) => (xScale(data.dt_txt) ?? 0) + 18.5)
+          .y((data) => yScale(data.main.temp) * 2),
+      );
     return (newWidth: any, newHeight: any) => {
-
       const width = newWidth / 3;
       const height = newHeight / 2;
 
@@ -97,25 +99,31 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       xScale.rangeRound([0, width]);
       yScale.rangeRound([height, 0]);
 
-      const differenceInTime = (xScale.bandwidth() - timeWidth)/2;
-      const differenceInTemp = (xScale.bandwidth() - tempWidth)/2;
+      const differenceInTime = (xScale.bandwidth() - timeWidth) / 2;
+      const differenceInTemp = (xScale.bandwidth() - tempWidth) / 2;
 
-      bars.attr('x', (data) => xScale(data.dt_txt)!)
-          .attr('y', (data) => yScale(data.main.temp))
-          .attr('width', xScale.bandwidth)
-          .attr('height', (data) => height - yScale(data.main.temp));
-      temp.attr('x', (data) => differenceInTemp + xScale(data.dt_txt)!)
-          .attr('y', (data) => yScale(data.main.temp))
-          .attr('font-size', textSize + 2);
-      time.attr('x', (data) => differenceInTime + xScale(data.dt_txt)!)
-          .attr('y', height - 5)
-          .attr('font-size', textSize);
-      line.attr("d", d3.line<{ dt_txt: string; main: any }>()
+      bars
+        .attr('x', (data) => xScale(data.dt_txt)!)
+        .attr('y', (data) => yScale(data.main.temp))
+        .attr('width', xScale.bandwidth)
+        .attr('height', (data) => height - yScale(data.main.temp));
+      temp
+        .attr('x', (data) => differenceInTemp + xScale(data.dt_txt)!)
+        .attr('y', (data) => yScale(data.main.temp))
+        .attr('font-size', textSize + 2);
+      time
+        .attr('x', (data) => differenceInTime + xScale(data.dt_txt)!)
+        .attr('y', height - 5)
+        .attr('font-size', textSize);
+      line.attr(
+        'd',
+        d3
+          .line<{ dt_txt: string; main: any }>()
           .curve(d3.curveBasis)
-          .x((data) =>  (xScale(data.dt_txt)??0) + 18.5 )
-          .y((data) =>   yScale(data.main.temp)*2 )
-      )
-    }
+          .x((data) => (xScale(data.dt_txt) ?? 0) + 18.5)
+          .y((data) => yScale(data.main.temp) * 2),
+      );
+    };
   }
 };
 
@@ -126,23 +134,23 @@ const ForecastGraphTest = () => {
     const disResult = display(window.innerWidth, window.innerHeight, forecast);
 
     const resize = debounce(() => {
-      if (disResult){
+      if (disResult) {
         disResult(window.innerWidth, window.innerHeight);
       }
     }, 1500);
 
     const onResize = () => {
       resize();
-    }
+    };
 
     window.addEventListener('resize', onResize);
 
     return () => {
-      window.removeEventListener('resize', onResize)
-    }
+      window.removeEventListener('resize', onResize);
+    };
   }, [forecast]);
 
-  return <svg id="forecast"/>;
+  return <svg id="forecast" />;
 };
 
 export default ForecastGraphTest;

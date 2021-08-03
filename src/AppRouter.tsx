@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { privateRoutes, publicRoutes } from './routes/routes';
 import { LOGIN_ROUTE, WEATHER_MAP_ROUTE } from './utils/consts';
 import { useAuthState } from 'react-firebase-hooks/auth';

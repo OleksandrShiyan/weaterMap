@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import axios from 'axios';
 import ForecastModal from './ForecastModal/ForecastModal';
@@ -10,7 +10,6 @@ import {
 } from '../../utils/consts';
 import { HaversineInKM } from '../../utils/functions';
 import { RootState } from '../../redux/store';
-
 const containerStyle = {
   width: '100%',
   height: '93vh',
@@ -34,9 +33,9 @@ function WeatherMap() {
 
   const cache = useSelector((state: RootState) => state.cache);
 
-  const [, setMap] = React.useState({ zoom: 4 });
+  const [, setMap] = useState({ zoom: 4 });
 
-  const onUnmount = React.useCallback(function callback() {
+  const onUnmount = useCallback(function callback() {
     setMap({ zoom: 5 });
   }, []);
 
@@ -108,9 +107,7 @@ function WeatherMap() {
     >
       {forecast ? <ForecastModal setForecast={setForecast} /> : null}
     </GoogleMap>
-  ) : (
-    <></>
-  );
+  ) : null
 }
 
 export default React.memo(WeatherMap);

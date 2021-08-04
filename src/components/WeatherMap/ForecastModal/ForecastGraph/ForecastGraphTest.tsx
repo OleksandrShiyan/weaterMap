@@ -44,7 +44,6 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .attr('text-anchor', 'middle')
       .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
       .attr('y', (data) => yScale(data.main.temp))
-      // .attr('font-size', textSize + 2)
       .text((data) => Math.round(data.main.temp) + '°');
 
     const time = container
@@ -56,7 +55,6 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
       .attr('y', height - 5)
       .classed(style.time, true)
-      // .attr('font-size', textSize)
       .text((data) => data.dt_txt.split(' ')[1].slice(0, 5));
 
     const line = container
@@ -105,7 +103,6 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
 };
 
 const ForecastGraphTest = () => {
-  console.log('font size: ')
   const forecast = useSelector((state: RootState) => state.forecast);
   useEffect(() => {
     const disResult = display(window.innerWidth, window.innerHeight, forecast);
@@ -114,7 +111,7 @@ const ForecastGraphTest = () => {
       if (disResult) {
         disResult(window.innerWidth, window.innerHeight);
       }
-    }, 1500);
+    }, 300);
 
     const onResize = () => {
       resize();

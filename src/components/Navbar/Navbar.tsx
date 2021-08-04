@@ -1,6 +1,6 @@
+import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { LOGIN_ROUTE } from '../../utils/consts';

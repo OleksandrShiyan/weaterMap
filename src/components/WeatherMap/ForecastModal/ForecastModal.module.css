@@ -32,14 +32,58 @@
 
 .bar {
     fill: #bbb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
-    width: 33vw;
+    width: 450px;
     height: 50vh;
     background: #FFFFFF;
     border-radius: 20px;
 }
+
+@media screen and (min-width: 1201px) {
+    .container {
+        font-size: 20px;
+    }
+    .time{
+        font-size: 17px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .container {
+        font-size: 20px;
+    }
+    .time{
+        font-size: 17px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .container {
+        font-size: 18px;
+    }
+    .time{
+        font-size: 15px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .container {
+        width: 100%;
+        font-size: 18px;
+    }
+    .time{
+        font-size: 12px;
+    }
+}
+
+
+
+
 
 .center {
     display: flex;

@@ -6,24 +6,11 @@ import style from '../ForecastModal.module.css';
 import { forecastState } from '../../../../types/redux-types/redux-types';
 import { debounce } from '@material-ui/core';
 
-function getTextWidth(text: string, font: string): number {
-  // @ts-ignore
-  const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement('canvas'));
-  const context = canvas.getContext('2d');
-  context.font = font;
-  const metrics = context.measureText(text);
-  return metrics.width;
-}
-
 const display = (blockWidth: number, blockHeight: number, forecast: forecastState) => {
   d3.selectAll('#forecast > *').remove();
 
   const width =  blockWidth < 350 ? blockWidth : 450;
   const height = blockHeight / 2;
-
-  const textSize = Math.round(blockWidth / 100) + 2;
-  const timeWidth = getTextWidth('19:00', `${textSize}px 'Times New Roman'`);
-  const tempWidth = getTextWidth('30', `${textSize + 2}px 'Times New Roman'`);
 
   if (forecast.list) {
     const dayForecast = forecast.list.slice(0, 8);
@@ -34,9 +21,6 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .rangeRound([0, width])
       .padding(0.15);
     const yScale = d3.scaleLinear().domain([-60, 45]).range([height, 0]);
-
-    const differenceInTime = (xScale.bandwidth() - timeWidth) / 2;
-    const differenceInTemp = (xScale.bandwidth() - tempWidth) / 2;
 
     const container = d3.select('#forecast').classed(style.container, true);
 
@@ -57,9 +41,10 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .data(dayForecast)
       .enter()
       .append('text')
-      .attr('x', (data) => differenceInTemp + xScale(data.dt_txt)!)
+      .attr('text-anchor', 'middle')
+      .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
       .attr('y', (data) => yScale(data.main.temp))
-      .attr('font-size', textSize + 2)
+      // .attr('font-size', textSize + 2)
       .text((data) => Math.round(data.main.temp) + '°');
 
     const time = container
@@ -67,9 +52,11 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .data(dayForecast)
       .enter()
       .append('text')
-      .attr('x', (data) => differenceInTime + xScale(data.dt_txt)!)
+      .attr('text-anchor', 'middle')
+      .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
       .attr('y', height - 5)
-      .attr('font-size', textSize)
+      .classed(style.time, true)
+      // .attr('font-size', textSize)
       .text((data) => data.dt_txt.split(' ')[1].slice(0, 5));
 
     const line = container
@@ -88,19 +75,11 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
           .y((data) => yScale(data.main.temp) * 2),
       );
     return (newWidth: any, newHeight: any) => {
-      const width = newWidth < 350 ? newWidth : 450;
+      const width = newWidth < 450 ? newWidth : 450;
       const height = newHeight / 2;
-
-      const textSize = Math.round(newWidth / 100) + 2;
-
-      const timeWidth = getTextWidth('19:00', `${textSize}px 'Times New Roman'`);
-      const tempWidth = getTextWidth('30°', `${textSize + 2}px 'Times New Roman'`);
 
       xScale.rangeRound([0, width]);
       yScale.rangeRound([height, 0]);
-
-      const differenceInTime = (xScale.bandwidth() - timeWidth) / 2;
-      const differenceInTemp = (xScale.bandwidth() - tempWidth) / 2;
 
       bars
         .attr('x', (data) => xScale(data.dt_txt)!)
@@ -108,13 +87,11 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
         .attr('width', xScale.bandwidth)
         .attr('height', (data) => height - yScale(data.main.temp));
       temp
-        .attr('x', (data) => differenceInTemp + xScale(data.dt_txt)!)
+        .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
         .attr('y', (data) => yScale(data.main.temp))
-        // .attr('font-size', textSize + 2);
       time
-        .attr('x', (data) => differenceInTime + xScale(data.dt_txt)!)
+        .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
         .attr('y', height - 5)
-        // .attr('font-size', textSize);
       line.attr(
         'd',
         d3
@@ -128,6 +105,7 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
 };
 
 const ForecastGraphTest = () => {
+  console.log('font size: ')
   const forecast = useSelector((state: RootState) => state.forecast);
   useEffect(() => {
     const disResult = display(window.innerWidth, window.innerHeight, forecast);

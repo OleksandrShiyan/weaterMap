@@ -9,7 +9,7 @@ import { debounce } from '@material-ui/core';
 const display = (blockWidth: number, blockHeight: number, forecast: forecastState) => {
   d3.selectAll('#forecast > *').remove();
 
-  const width =  blockWidth < 350 ? blockWidth : 450;
+  const width =  blockWidth < 450 ? blockWidth : 450;
   const height = blockHeight / 2;
 
   if (forecast.list) {

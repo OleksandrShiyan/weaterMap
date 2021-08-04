@@ -18,7 +18,7 @@ function getTextWidth(text: string, font: string): number {
 const display = (blockWidth: number, blockHeight: number, forecast: forecastState) => {
   d3.selectAll('#forecast > *').remove();
 
-  const width = blockWidth / 3;
+  const width =  blockWidth < 350 ? blockWidth : 450;
   const height = blockHeight / 2;
 
   const textSize = Math.round(blockWidth / 100) + 2;
@@ -88,7 +88,7 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
           .y((data) => yScale(data.main.temp) * 2),
       );
     return (newWidth: any, newHeight: any) => {
-      const width = newWidth / 3;
+      const width = newWidth < 350 ? newWidth : 450;
       const height = newHeight / 2;
 
       const textSize = Math.round(newWidth / 100) + 2;
@@ -110,11 +110,11 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       temp
         .attr('x', (data) => differenceInTemp + xScale(data.dt_txt)!)
         .attr('y', (data) => yScale(data.main.temp))
-        .attr('font-size', textSize + 2);
+        // .attr('font-size', textSize + 2);
       time
         .attr('x', (data) => differenceInTime + xScale(data.dt_txt)!)
         .attr('y', height - 5)
-        .attr('font-size', textSize);
+        // .attr('font-size', textSize);
       line.attr(
         'd',
         d3

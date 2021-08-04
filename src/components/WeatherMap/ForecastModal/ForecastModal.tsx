@@ -10,9 +10,9 @@ const ForecastModal = ({ setForecast }: ForecastModalP) => {
 
   return (
     <div className={style.modal}>
-      <div className={style.modalContent}>
+      {/*<div className={style.modalContent}>*/}
         <ForecastGraphTest />
-      </div>
+      {/*</div>*/}
       <div onClick={closeModal} className={style.modalCloser} />
     </div>
   );

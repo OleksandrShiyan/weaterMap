@@ -3,7 +3,11 @@ import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 import axios from 'axios';
 import ForecastModal from './ForecastModal/ForecastModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { ADD_FORECAST_REQUEST, FETCH_WEATHER_DATA } from '../../utils/consts';
+import {
+  ADD_FORECAST_REQUEST,
+  FETCH_WEATHER_DATA,
+  UPDATE_VALID_FORECAST_REQUESTS,
+} from '../../utils/consts';
 import { HaversineInKM } from '../../utils/functions';
 import { RootState } from '../../redux/store';
 
@@ -12,14 +16,15 @@ const containerStyle = {
   height: '93vh',
 };
 
-const apiKey = 'c3256a23f4717a90ea226483514e6cfa';
+const apiKey = process.env.REACT_APP_OPENWEATHER_API;
+const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API;
 
 function WeatherMap() {
   const dispatch = useDispatch();
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyBnHITdRGqi7e71Qhc6-sgSaF8y8H0-LBg',
+    googleMapsApiKey: `${googleMapsApiKey}`,
   });
 
   const [center, setCenter] = useState({
@@ -39,7 +44,17 @@ function WeatherMap() {
     let cachedObj = { distance: -1, index: -1 };
     const meLat = e.latLng.lat();
     const meLong = e.latLng.lng();
-    cache.requests.map((req, index) => {
+
+    const validReq = cache.requests.filter((req) => Date.now() - req.timeStamp < 0);
+
+    if (!(validReq.length === cache.requests.length)) {
+      dispatch({
+        type: UPDATE_VALID_FORECAST_REQUESTS,
+        payload: validReq,
+      });
+    }
+
+    validReq.forEach((req, index) => {
       const distance = HaversineInKM(meLat, meLong, req.coords.lat, req.coords.lng);
       if (
         distance < 20 &&
@@ -62,7 +77,7 @@ function WeatherMap() {
             type: ADD_FORECAST_REQUEST,
             payload: {
               list: event.data.list,
-              timeStamp: Date.now(),
+              timeStamp: Date.now() + 3600000,
               coords: { lat: e.latLng.lat(), lng: e.latLng.lng() },
             },
           });

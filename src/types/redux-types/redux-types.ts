@@ -17,7 +17,7 @@ enum ForecastActionTypes {
 
 enum CacheActionTypes {
   ADD_FORECAST_REQUEST = 'ADD_FORECAST_REQUEST',
-  DELETE_FORECAST_REQUEST = 'DELETE_FORECAST_REQUEST',
+  UPDATE_VALID_FORECAST_REQUESTS = 'UPDATE_VALID_FORECAST_REQUESTS',
 }
 
 export interface FetchGoogleUserA {
@@ -54,8 +54,8 @@ export interface AddForecastRequestA {
 }
 
 export interface DeleteForecastRequestA {
-  type: CacheActionTypes.DELETE_FORECAST_REQUEST;
-  payload: { timeStamp: number };
+  type: CacheActionTypes.UPDATE_VALID_FORECAST_REQUESTS;
+  payload: cacheObj[];
 }
 
 export type UserAction =

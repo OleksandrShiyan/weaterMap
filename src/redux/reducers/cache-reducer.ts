@@ -1,4 +1,4 @@
-import { ADD_FORECAST_REQUEST, DELETE_FORECAST_REQUEST } from '../../utils/consts';
+import {ADD_FORECAST_REQUEST, UPDATE_VALID_FORECAST_REQUESTS} from '../../utils/consts';
 import { CacheAction, cacheState } from '../../types/redux-types/redux-types';
 
 const initialState: cacheState = {
@@ -12,9 +12,10 @@ function cacheReducer(state = initialState, action: CacheAction) {
         ...state,
         requests: [...state.requests, action.payload],
       };
-    case DELETE_FORECAST_REQUEST:
+    case UPDATE_VALID_FORECAST_REQUESTS:
       return {
         ...state,
+        requests: [...action.payload]
       };
     default:
       return state;

@@ -8,8 +8,10 @@ import { FETCH_GOOGLE_AUTH_OBJ } from './utils/consts';
 import Loader from './components/Loader/Loader';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
+const apiKey = process.env.REACT_APP_FIREBASE_API
+
 firebase.initializeApp({
-  apiKey: 'AIzaSyA1bj7mTvmSxEbupRRuH6M56BJAy1ijxMY',
+  apiKey: apiKey,
   authDomain: 'weathermap-3f4cd.firebaseapp.com',
   projectId: 'weathermap-3f4cd',
   storageBucket: 'weathermap-3f4cd.appspot.com',

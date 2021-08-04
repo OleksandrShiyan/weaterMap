@@ -23,7 +23,7 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
 
   const textSize = Math.round(blockWidth / 100) + 2;
   const timeWidth = getTextWidth('19:00', `${textSize}px 'Times New Roman'`);
-  const tempWidth = getTextWidth('30°', `${textSize + 2}px 'Times New Roman'`);
+  const tempWidth = getTextWidth('30', `${textSize + 2}px 'Times New Roman'`);
 
   if (forecast.list) {
     const dayForecast = forecast.list.slice(0, 8);
@@ -120,7 +120,7 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
         d3
           .line<{ dt_txt: string; main: any }>()
           .curve(d3.curveBasis)
-          .x((data) => (xScale(data.dt_txt) ?? 0) + 18.5)
+          .x((data) => (xScale(data.dt_txt) ?? 0) + 9)
           .y((data) => yScale(data.main.temp) * 2),
       );
     };
@@ -129,7 +129,6 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
 
 const ForecastGraphTest = () => {
   const forecast = useSelector((state: RootState) => state.forecast);
-
   useEffect(() => {
     const disResult = display(window.innerWidth, window.innerHeight, forecast);
 

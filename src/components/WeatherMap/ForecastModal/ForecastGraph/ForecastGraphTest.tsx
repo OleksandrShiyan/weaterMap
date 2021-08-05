@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import * as d3 from 'd3';
-import { RootState } from '../../../../redux/store';
 import style from '../ForecastModal.module.css';
 import { forecastState } from '../../../../types/redux-types/redux-types';
 import { debounce } from '@material-ui/core';
+import { forecastSelector } from '../../../../selectors/forecast-selectors';
 
 const display = (blockWidth: number, blockHeight: number, forecast: forecastState) => {
   d3.selectAll('#forecast > *').remove();
 
-  const width =  blockWidth < 450 ? blockWidth : 450;
+  const width = blockWidth < 450 ? blockWidth : 450;
   const height = blockHeight / 2;
 
   if (forecast.list) {
@@ -42,7 +42,7 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .enter()
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
+      .attr('x', (data) => xScale.bandwidth() / 2 + xScale(data.dt_txt)!)
       .attr('y', (data) => yScale(data.main.temp))
       .text((data) => Math.round(data.main.temp) + '°');
 
@@ -52,7 +52,7 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
       .enter()
       .append('text')
       .attr('text-anchor', 'middle')
-      .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
+      .attr('x', (data) => xScale.bandwidth() / 2 + xScale(data.dt_txt)!)
       .attr('y', height - 5)
       .classed(style.time, true)
       .text((data) => data.dt_txt.split(' ')[1].slice(0, 5));
@@ -85,11 +85,9 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
         .attr('width', xScale.bandwidth)
         .attr('height', (data) => height - yScale(data.main.temp));
       temp
-        .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
-        .attr('y', (data) => yScale(data.main.temp))
-      time
-        .attr('x', (data) => (xScale.bandwidth() / 2) + xScale(data.dt_txt)!)
-        .attr('y', height - 5)
+        .attr('x', (data) => xScale.bandwidth() / 2 + xScale(data.dt_txt)!)
+        .attr('y', (data) => yScale(data.main.temp));
+      time.attr('x', (data) => xScale.bandwidth() / 2 + xScale(data.dt_txt)!).attr('y', height - 5);
       line.attr(
         'd',
         d3
@@ -103,14 +101,13 @@ const display = (blockWidth: number, blockHeight: number, forecast: forecastStat
 };
 
 const ForecastGraphTest = () => {
-  const forecast = useSelector((state: RootState) => state.forecast);
+  const forecast = useSelector(forecastSelector);
+
   useEffect(() => {
     const disResult = display(window.innerWidth, window.innerHeight, forecast);
 
     const resize = debounce(() => {
-      if (disResult) {
-        disResult(window.innerWidth, window.innerHeight);
-      }
+      if (disResult) disResult(window.innerWidth, window.innerHeight);
     }, 300);
 
     const onResize = () => {

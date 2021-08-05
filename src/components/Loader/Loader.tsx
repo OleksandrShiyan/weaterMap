@@ -11,7 +11,7 @@ const Loader = () => {
         justifyContent="center"
       >
         <Grid container alignItems="center" direction="column">
-          <div className="lds-dual-ring"/>
+          <div className="lds-dual-ring" />
         </Grid>
       </Grid>
     </Container>

@@ -4,34 +4,16 @@ export interface action {
 }
 
 enum UserActionTypes {
-  FETCH_GOOGLE_USER = 'FETCH_GOOGLE_USER',
-  FETCH_GOOGLE_USER_SUCCESS = 'FETCH_GOOGLE_USER_SUCCESS',
-  FETCH_GOOGLE_USER_ERROR = 'FETCH_GOOGLE_USER_ERROR',
   FETCH_GOOGLE_AUTH_OBJ = 'FETCH_GOOGLE_AUTH_OBJ',
 }
 
 enum ForecastActionTypes {
-  FETCH_WEATHER_DATA = 'FETCH_WEATHER_DATA',
-  CLEAR_WEATHER_DATA = 'CLEAR_WEATHER_DATA',
+  FETCH_WEATHER_DATA = 'FETCH_WEATHER_DATA'
 }
 
 enum CacheActionTypes {
   ADD_FORECAST_REQUEST = 'ADD_FORECAST_REQUEST',
   UPDATE_VALID_FORECAST_REQUESTS = 'UPDATE_VALID_FORECAST_REQUESTS',
-}
-
-export interface FetchGoogleUserA {
-  type: UserActionTypes.FETCH_GOOGLE_USER;
-}
-
-export interface FetchGoogleUserSuccessA {
-  type: UserActionTypes.FETCH_GOOGLE_USER_SUCCESS;
-  payload: any[];
-}
-
-export interface FetchGoogleUserErrorA {
-  type: UserActionTypes.FETCH_GOOGLE_USER_ERROR;
-  error: string;
 }
 
 export interface FetchGoogleAuthObjA {
@@ -44,10 +26,6 @@ export interface FetchWeatherDataA {
   payload: forecastState;
 }
 
-export interface ClearWeatherDataA {
-  type: ForecastActionTypes.CLEAR_WEATHER_DATA;
-}
-
 export interface AddForecastRequestA {
   type: CacheActionTypes.ADD_FORECAST_REQUEST;
   payload: cacheObj;
@@ -58,13 +36,9 @@ export interface DeleteForecastRequestA {
   payload: cacheObj[];
 }
 
-export type UserAction =
-  | FetchGoogleUserA
-  | FetchGoogleUserSuccessA
-  | FetchGoogleUserErrorA
-  | FetchGoogleAuthObjA;
+export type UserAction = FetchGoogleAuthObjA;
 
-export type ForecastAction = FetchWeatherDataA | ClearWeatherDataA;
+export type ForecastAction = FetchWeatherDataA;
 
 export type CacheAction = AddForecastRequestA | DeleteForecastRequestA;
 
@@ -144,5 +118,6 @@ export interface cacheObj {
     lat: number;
     lng: number;
   };
+  city: cityObj;
   list: listObj[] | null;
 }

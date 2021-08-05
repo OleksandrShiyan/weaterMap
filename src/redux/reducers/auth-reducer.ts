@@ -1,9 +1,4 @@
-import {
-  FETCH_GOOGLE_AUTH_OBJ,
-  FETCH_GOOGLE_USER,
-  FETCH_GOOGLE_USER_ERROR,
-  FETCH_GOOGLE_USER_SUCCESS,
-} from '../../utils/consts';
+import { FETCH_GOOGLE_AUTH_OBJ } from '../../utils/consts';
 import { authReducerState, UserAction } from '../../types/redux-types/redux-types';
 
 const initialState: authReducerState = {
@@ -21,19 +16,6 @@ function authReducer(state = initialState, action: UserAction) {
         ...state,
         auth: action.auth,
         loading: false,
-      };
-    case FETCH_GOOGLE_USER:
-      return {
-        ...state,
-      };
-    case FETCH_GOOGLE_USER_SUCCESS:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case FETCH_GOOGLE_USER_ERROR:
-      return {
-        ...state,
       };
     default:
       return state;

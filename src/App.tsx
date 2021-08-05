@@ -4,11 +4,11 @@ import AppRouter from './AppRouter';
 import './App.css';
 import firebase from 'firebase';
 import { useDispatch } from 'react-redux';
-import { FETCH_GOOGLE_AUTH_OBJ } from './utils/consts';
 import Loader from './components/Loader/Loader';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { fetchGoogleAuthObjAC } from './redux/actions/auth-AC';
 
-const apiKey = process.env.REACT_APP_FIREBASE_API
+const apiKey = process.env.REACT_APP_FIREBASE_API;
 
 firebase.initializeApp({
   apiKey: apiKey,
@@ -26,7 +26,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: FETCH_GOOGLE_AUTH_OBJ, auth });
+    dispatch(fetchGoogleAuthObjAC(auth));
   }, [auth]);
 
   const [, loading] = useAuthState(auth);

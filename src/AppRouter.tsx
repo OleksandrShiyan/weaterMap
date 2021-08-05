@@ -4,10 +4,10 @@ import { privateRoutes, publicRoutes } from './routes/routes';
 import { LOGIN_ROUTE, WEATHER_MAP_ROUTE } from './utils/consts';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useSelector } from 'react-redux';
-import { RootState } from './redux/store';
+import {authSelector} from './selectors/auth-selectors';
 
 const AppRouter = () => {
-  const { auth } = useSelector((state: RootState) => state.auth);
+  const auth = useSelector(authSelector);
   const [user] = useAuthState(auth);
 
   return user ? (

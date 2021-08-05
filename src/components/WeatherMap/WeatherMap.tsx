@@ -1,39 +1,36 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
-import axios from 'axios';
 import ForecastModal from './ForecastModal/ForecastModal';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  ADD_FORECAST_REQUEST,
-  FETCH_WEATHER_DATA,
-  UPDATE_VALID_FORECAST_REQUESTS,
-} from '../../utils/consts';
 import { HaversineInKM } from '../../utils/functions';
-import { RootState } from '../../redux/store';
+import { addForecastReqAC, updateValidForecastReqAC } from '../../redux/actions/cache-AC';
+import { fetchWeatherDataAC } from '../../redux/actions/forecast-AC';
+import { weatherAPI } from '../../http/api';
+import { weatherCache } from '../../selectors/cache-selectors';
+
 const containerStyle = {
   width: '100%',
   height: '93vh',
 };
 
-const apiKey = process.env.REACT_APP_OPENWEATHER_API;
 const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API;
 
 function WeatherMap() {
-  const dispatch = useDispatch();
-
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: `${googleMapsApiKey}`,
-  });
-
   const [center, setCenter] = useState({
     lat: 50,
     lng: 30,
   });
 
-  const cache = useSelector((state: RootState) => state.cache);
-
   const [, setMap] = useState({ zoom: 4 });
+
+  const dispatch = useDispatch();
+
+  const cache = useSelector(weatherCache);
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: `${googleMapsApiKey}`,
+  });
 
   const onUnmount = useCallback(function callback() {
     setMap({ zoom: 5 });
@@ -47,10 +44,7 @@ function WeatherMap() {
     const validReq = cache.requests.filter((req) => Date.now() - req.timeStamp < 0);
 
     if (!(validReq.length === cache.requests.length)) {
-      dispatch({
-        type: UPDATE_VALID_FORECAST_REQUESTS,
-        payload: validReq,
-      });
+      dispatch(updateValidForecastReqAC(validReq));
     }
 
     validReq.forEach((req, index) => {
@@ -64,23 +58,19 @@ function WeatherMap() {
     });
 
     if (cachedObj.distance !== -1) {
-      dispatch({ type: FETCH_WEATHER_DATA, payload: cache.requests[cachedObj.index] });
+      dispatch(fetchWeatherDataAC(cache.requests[cachedObj.index]));
     } else {
-      axios
-        .get(
-          `https://api.openweathermap.org/data/2.5/forecast?lat=${e.latLng.lat()}&lon=${e.latLng.lng()}&appid=${apiKey}&units=metric`,
-        )
-        .then((event) => {
-          dispatch({ type: FETCH_WEATHER_DATA, payload: event.data });
-          dispatch({
-            type: ADD_FORECAST_REQUEST,
-            payload: {
-              list: event.data.list,
-              timeStamp: Date.now() + 3600000,
-              coords: { lat: e.latLng.lat(), lng: e.latLng.lng() },
-            },
-          });
-        });
+      weatherAPI.getForecast(e.latLng.lat(), e.latLng.lng()).then((event) => {
+        dispatch(fetchWeatherDataAC(event.data));
+        dispatch(
+          addForecastReqAC({
+            list: event.data.list,
+            city: event.data.city,
+            timeStamp: Date.now() + 3600000,
+            coords: { lat: e.latLng.lat(), lng: e.latLng.lng() },
+          }),
+        );
+      });
     }
 
     setForecast(true);
@@ -107,7 +97,7 @@ function WeatherMap() {
     >
       {forecast ? <ForecastModal setForecast={setForecast} /> : null}
     </GoogleMap>
-  ) : null
+  ) : null;
 }
 
 export default React.memo(WeatherMap);

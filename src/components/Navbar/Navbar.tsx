@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom';
 import { Button, Grid } from '@material-ui/core';
 import { LOGIN_ROUTE } from '../../utils/consts';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { authSelector } from '../../selectors/auth-selectors';
 
 const Navbar = () => {
-  const { auth } = useSelector((state: RootState) => state.auth);
+  const auth = useSelector(authSelector);
+
   const [user] = useAuthState(auth);
 
   const logOut = () => {

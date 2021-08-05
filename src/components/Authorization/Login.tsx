@@ -2,23 +2,23 @@ import firebase from 'firebase';
 import React from 'react';
 import { Box, Button, Container, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { authSelector } from '../../selectors/auth-selectors';
 
 const Login = () => {
-  const auth = useSelector((state: RootState) => state.auth);
+  const auth = useSelector(authSelector);
 
   const googleProvider = new firebase.auth.GoogleAuthProvider();
   const facebookProvider = new firebase.auth.FacebookAuthProvider();
   const gitHubProvider = new firebase.auth.GithubAuthProvider();
 
   const loginGoogle = async () => {
-      await auth.auth.signInWithPopup(googleProvider);
+    await auth.signInWithPopup(googleProvider);
   };
   const loginFacebook = async () => {
-      await auth.auth.signInWithPopup(facebookProvider);
+    await auth.signInWithPopup(facebookProvider);
   };
   const loginGitHub = async () => {
-      await auth.auth.signInWithPopup(gitHubProvider);
+    await auth.signInWithPopup(gitHubProvider);
   };
 
   return (
